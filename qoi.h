@@ -93,8 +93,8 @@ bool QoiEncode(uint32_t width, uint32_t height, uint8_t channels, uint8_t colors
                         }
                     }
                 }
-                history[idx][0] = r; history[idx][1] = g; history[idx][2] = b; history[idx][3] = a;
             }
+            history[idx][0] = r; history[idx][1] = g; history[idx][2] = b; history[idx][3] = a;
             pr = r; pg = g; pb = b; pa = a;
         }
     }
