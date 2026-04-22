@@ -79,7 +79,7 @@ bool QoiEncode(uint32_t width, uint32_t height, uint8_t channels, uint8_t colors
                         uint8_t b2 = static_cast<uint8_t>(((dr_dg + 8) & 0xF) << 4 | ((db_dg + 8) & 0xF));
                         QoiWriteU8(b2);
                     } else {
-                        if (a != pa) {
+                        if (channels == 4) {
                             QoiWriteU8(QOI_OP_RGBA_TAG);
                             QoiWriteU8(r);
                             QoiWriteU8(g);
