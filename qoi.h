@@ -66,7 +66,8 @@ bool QoiEncode(uint32_t width, uint32_t height, uint8_t channels, uint8_t colors
                 int dr = static_cast<int>(r) - static_cast<int>(pr);
                 int dg = static_cast<int>(g) - static_cast<int>(pg);
                 int db = static_cast<int>(b) - static_cast<int>(pb);
-                if (pa == a && dr >= -2 && dr <= 1 && dg >= -2 && dg <= 1 && db >= -2 && db <= 1) {
+                bool try_small = (channels == 3);
+                if (try_small && pa == a && dr >= -2 && dr <= 1 && dg >= -2 && dg <= 1 && db >= -2 && db <= 1) {
                     uint8_t byte = QOI_OP_DIFF_TAG |
                         static_cast<uint8_t>(((dr + 2) & 0x3) << 4 | (((dg + 2) & 0x3) << 2) | ((db + 2) & 0x3));
                     QoiWriteU8(byte);
@@ -74,7 +75,7 @@ bool QoiEncode(uint32_t width, uint32_t height, uint8_t channels, uint8_t colors
                     int ddg = dg;
                     int dr_dg = dr - ddg;
                     int db_dg = db - ddg;
-                    if (pa == a && ddg >= -32 && ddg <= 31 && dr_dg >= -8 && dr_dg <= 7 && db_dg >= -8 && db_dg <= 7) {
+                    if (try_small && pa == a && ddg >= -32 && ddg <= 31 && dr_dg >= -8 && dr_dg <= 7 && db_dg >= -8 && db_dg <= 7) {
                         QoiWriteU8(QOI_OP_LUMA_TAG | static_cast<uint8_t>(ddg + 32));
                         uint8_t b2 = static_cast<uint8_t>(((dr_dg + 8) & 0xF) << 4 | ((db_dg + 8) & 0xF));
                         QoiWriteU8(b2);
